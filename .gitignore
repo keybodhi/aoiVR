@@ -1,0 +1,52 @@
+# Unity
+unity-client/Library/
+unity-client/Build/
+unity-client/Logs/
+unity-client/Temp/
+unity-client/obj/
+unity-client/UserSettings/
+*.log
+
+# Native build artifacts
+*.obj
+*.lib
+*.exp
+native/MirrorCapture/*.obj
+
+# Generated files (regenerate at build time)
+agent-cpp/src/decoys.gen.cpp
+agent-cpp/src/decoys.gen.hpp
+agent-cpp/src/api_names.gen.hpp
+agent-cpp/build/
+agent-cpp/build-*/
+__pycache__/
+
+# Unity build-time inject (copied in by the obfuscator repo's inject layer
+# before an IL2CPP build; never part of this repo)
+unity-client/Assets/Editor/Aoi.Codegen/
+unity-client/Assets/Editor/Aoi.Codegen.meta
+
+# Node
+agent-js/node_modules/
+agent-js/*.log
+agent-js/.env
+agent-js/nul
+
+# ML models & runtime capture
+agent-js/models/
+agent-js/context/
+agent-js/dist/*.map
+
+# Test artifacts
+agent-js/coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build/runtime logs (txt variants)
+build_log*.txt
+
+# Build-generated (see README build steps)
+unity-client/Assets/Aoi/Plugins/x86_64/aoi_agent.dll
+unity-client/Assets/AoiMain.unity

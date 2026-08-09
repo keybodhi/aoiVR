@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Aoi Hand Panel - 交互改进 Mockup</title>
+<style>
+:root{
+  --bg-void:#05070d;
+  --bg-panel:rgba(8,14,26,.82);
+  --cyan:#02d7f2;
+  --cyan-dim:rgba(2,215,242,.55);
+  --cyan-soft:rgba(2,215,242,.25);
+  --yellow:#f3e600;
+  --magenta:#ff1744;
+  --text:#d7f3fb;
+  --text-dim:#7fa8b8;
+  --amber:#ffd75e;
+  --line:rgba(2,215,242,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#02030a;overflow:hidden;
+  font-family:"Segoe UI",Rajdhani,"Microsoft YaHei",sans-serif;color:var(--text)}
+body{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+
+/* ---------- demo switch (not part of the panel) ---------- */
+.framebar{display:flex;gap:10px;align-items:center}
+.framebar .demo{font-family:Consolas,monospace;font-size:11px;letter-spacing:.3em;color:rgba(127,168,184,.5)}
+.framebar button{
+  font-family:Consolas,monospace;font-size:13px;letter-spacing:.15em;
+  background:transparent;color:var(--text-dim);
+  border:1px solid var(--cyan-dim);padding:6px 16px;cursor:pointer;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  transition:all .18s}
+.framebar button:hover{color:var(--cyan);border-color:var(--cyan);
+  box-shadow:0 0 14px rgba(2,215,242,.45)}
+.framebar button.on{color:var(--yellow);border-color:var(--yellow);
+  box-shadow:0 0 16px rgba(243,230,0,.45)}
+
+/* ---------- the VR panel (1024x1024 scaled) ---------- */
+.stage{position:relative;width:min(76vh,86vw);aspect-ratio:1}
+.panel{
+  position:absolute;inset:0;background:var(--bg-void);overflow:hidden;
+  border:1px solid var(--cyan-dim);
+  box-shadow:0 0 40px rgba(2,215,242,.28),0 0 120px rgba(2,215,242,.10),
+    inset 0 0 60px rgba(2,215,242,.05);
+  clip-path:polygon(26px 0,calc(100% - 26px) 0,100% 26px,100% calc(100% - 26px),
+    calc(100% - 26px) 100%,26px 100%,0 calc(100% - 26px),0 26px);
+}
+.panel::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    linear-gradient(rgba(2,215,242,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(2,215,242,.045) 1px,transparent 1px);
+  background-size:48px 48px}
+.panel::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:60;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+.corner{position:absolute;width:34px;height:34px;z-index:61;pointer-events:none}
+.corner.tl{top:10px;left:10px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan)}
+.corner.tr{top:10px;right:10px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan)}
+.corner.bl{bottom:10px;left:10px;border-bottom:2px solid var(--cyan);border-left:2px solid var(--cyan)}
+.corner.br{bottom:10px;right:10px;border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan)}
+
+/* ---------- status bar ---------- */
+.statusbar{position:absolute;top:0;left:0;right:0;height:64px;z-index:10;
+  display:flex;align-items:center;gap:12px;padding:0 30px;
+  border-bottom:1px solid var(--cyan-soft);
+  background:linear-gradient(180deg,rgba(2,215,242,.07),transparent)}
+.statusbar .logo{font-family:Consolas,monospace;font-weight:700;font-size:21px;
+  letter-spacing:.14em;color:var(--cyan);text-shadow:0 0 12px var(--cyan-dim)}
+.statusbar .logo em{font-style:normal;color:var(--yellow);text-shadow:0 0 12px rgba(243,230,0,.6)}
+.statusbar .logo .ver{font-size:10px;letter-spacing:.2em;color:rgba(2,215,242,.4);
+  font-weight:400;margin-left:8px;vertical-align:2px}
+.status-state{display:flex;align-items:center;gap:9px;
+  font-family:Consolas,monospace;font-size:15px;letter-spacing:.14em;color:var(--cyan)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan)}
+.state-rec .status-state{color:var(--yellow)}
+.state-rec .dot{background:var(--yellow);box-shadow:0 0 12px var(--yellow);
+  animation:pulse 1s infinite alternate}
+.state-err .status-state{color:var(--magenta)}
+.state-err .dot{background:var(--magenta);box-shadow:0 0 12px var(--magenta)}
+@keyframes pulse{from{opacity:.45}to{opacity:1}}
+/* persistent interpretation chip (background state, never overwritten by mic state) */
+.interpchip{display:none;align-items:center;gap:7px;
+  font-family:Consolas,monospace;font-size:12px;letter-spacing:.14em;
+  color:var(--amber);border:1px solid rgba(255,215,94,.55);padding:4px 12px;
+  border-radius:3px;box-shadow:0 0 10px rgba(255,215,94,.15)}
+.interpchip i{width:7px;height:7px;border-radius:50%;background:var(--amber);
+  box-shadow:0 0 8px var(--amber);animation:pulse 1s infinite alternate}
+.interp-on .interpchip{display:flex}
+/* environment-context chip (background: continuous screenshot + speaker audio -> AI context) */
+.envchip{display:none;align-items:center;gap:7px;
+  font-family:Consolas,monospace;font-size:12px;letter-spacing:.14em;
+  color:#c58cff;border:1px solid rgba(176,0,255,.55);padding:4px 12px;
+  border-radius:3px;box-shadow:0 0 10px rgba(176,0,255,.18)}
+.envchip i{width:7px;height:7px;border-radius:50%;background:#b06cff;
+  box-shadow:0 0 8px #b06cff;animation:pulse 1s infinite alternate}
+.env-on .envchip{display:flex}
+/* screenshot toast */
+.toast{position:absolute;top:76px;right:30px;z-index:20;display:none;align-items:center;gap:10px;
+  padding:9px 16px;background:rgba(4,6,14,.92);
+  border:1px solid var(--cyan-dim);
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  box-shadow:0 0 18px rgba(2,215,242,.3);
+  font-family:Consolas,monospace;font-size:12.5px;letter-spacing:.1em;color:var(--cyan);
+  animation:toastin .25s ease-out}
+.toast.show{display:flex}
+.toast .thumb{width:44px;height:44px;flex:none;
+  background:linear-gradient(135deg,rgba(2,215,242,.25),rgba(2,215,242,.05));
+  border:1px solid var(--cyan-dim);display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--cyan)}
+.toast .sub{color:var(--text-dim);font-size:10.5px;letter-spacing:.14em}
+@keyframes toastin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.toolbtn{
+  font-family:Consolas,monospace;font-size:12.5px;letter-spacing:.12em;
+  background:transparent;color:var(--text-dim);border:1px solid var(--cyan-dim);
+  padding:6px 14px;cursor:pointer;
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+  transition:all .18s}
+.toolbtn:hover{color:var(--cyan);border-color:var(--cyan);
+  box-shadow:0 0 10px rgba(2,215,242,.4)}
+
+/* ---------- chat scroll area ---------- */
+.chat{position:absolute;top:92px;left:34px;right:34px;bottom:170px;z-index:8;
+  padding:18px 64px 18px 22px;overflow:hidden;
+  background:var(--bg-panel);
+  border:1px solid var(--cyan-soft);
+  clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px)}
+.msg{margin-bottom:18px;line-height:1.62;font-size:16.5px}
+.msg .who{font-family:Consolas,monospace;font-size:13px;letter-spacing:.2em;
+  color:var(--cyan);text-shadow:0 0 8px var(--cyan-dim);display:block;margin-bottom:4px}
+.msg .who::before{content:"["}.msg .who::after{content:"]"}
+.msg p{color:var(--text)}
+.msg.partial p{color:var(--text-dim)}
+.msg.partial .who{color:var(--text-dim);text-shadow:none}
+.cursor{display:inline-block;width:9px;height:16px;background:var(--cyan);
+  vertical-align:-2px;margin-left:3px;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.endmark{margin-top:26px;text-align:center;
+  font-family:Consolas,monospace;font-size:10.5px;letter-spacing:.34em;
+  color:rgba(2,215,242,.3)}
+
+/* ---------- ▲/▼ scroll buttons (primary scroll, right edge) ---------- */
+.scrollbtns{position:absolute;right:14px;z-index:14;display:flex;flex-direction:column;gap:12px;
+  top:50%;transform:translateY(-50%)}
+.sbtn{
+  width:42px;height:42px;background:rgba(2,215,242,.08);
+  border:1px solid var(--cyan-dim);color:var(--cyan);
+  font-size:16px;cursor:pointer;font-family:Consolas,monospace;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  transition:all .15s}
+.sbtn:hover{color:var(--yellow);border-color:var(--yellow);
+  box-shadow:0 0 12px rgba(243,230,0,.4)}
+/* scroll position indicator */
+.scrolltrack{position:absolute;right:8px;top:104px;bottom:182px;width:3px;z-index:13;
+  background:rgba(2,215,242,.12)}
+.scrollthumb{position:absolute;left:0;width:100%;background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan-dim)}
+
+/* ---------- translation subtitle bar (SAO) ---------- */
+.subtitle{position:absolute;left:50%;transform:translateX(-50%);bottom:112px;z-index:12;
+  width:84%;padding:10px 24px 12px;display:none;
+  background:rgba(4,6,14,.9);
+  border:1px solid rgba(255,215,94,.5);
+  border-radius:6px;
+  box-shadow:0 0 24px rgba(255,215,94,.18),inset 0 0 18px rgba(255,215,94,.05);
+  font-size:17px;line-height:1.55;color:var(--amber);
+  text-shadow:0 0 10px rgba(255,215,94,.35)}
+.subtitle.show{display:block}
+.subtitle .tag{display:flex;justify-content:space-between;align-items:baseline;
+  font-family:Consolas,monospace;font-size:10.5px;letter-spacing:.22em;
+  color:rgba(255,215,94,.6);margin-bottom:4px}
+.subtitle .tag .close{color:rgba(255,215,94,.45)}
+
+/* ---------- contextual hint bar (bottom) ---------- */
+.hintbar{position:absolute;bottom:28px;left:0;right:0;z-index:10;
+  display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;row-gap:6px;
+  padding:0 40px;text-align:center;
+  font-family:Consolas,monospace;font-size:13px;letter-spacing:.12em;color:var(--text-dim)}
+.hintbar .key{
+  color:var(--cyan);border:1px solid var(--cyan-dim);padding:2px 10px;
+  clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+  font-size:12px}
+.state-rec .hintbar .key{color:var(--yellow);border-color:var(--yellow)}
+
+.state-err .chat{animation:glitch 2.4s infinite steps(1)}
+@keyframes glitch{
+  0%,92%,100%{transform:translate(0)}
+  93%{transform:translate(-3px,1px)}
+  95%{transform:translate(3px,-1px)}
+  97%{transform:translate(-2px,0)}
+}
+</style>
+</head>
+<body>
+
+<div class="framebar">
+  <span class="demo">DEMO&nbsp;»</span>
+  <button class="on" data-mode="idle">待机</button>
+  <button data-mode="rec">录音中</button>
+  <button data-mode="both">双手按住</button>
+  <button data-mode="interp">字幕中</button>
+  <button data-mode="interp_rec">字幕+录音</button>
+  <button data-mode="env">环境上下文</button>
+  <button data-mode="err">错误</button>
+</div>
+
+<div class="stage">
+  <div class="panel" id="panel">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+
+    <div class="statusbar">
+      <span class="logo">A<em>oi</em><span class="ver">HAND&nbsp;PANEL</span></span>
+      <span class="status-state"><span class="dot"></span><span id="stateText">● 就绪</span></span>
+      <span class="interpchip"><i></i>实时字幕 →中</span>
+      <span class="envchip"><i></i>环境上下文</span>
+      <button class="toolbtn" style="margin-left:auto" title="打开 SteamVR 按键绑定设置">修改绑定</button>
+    </div>
+
+    <div class="toast" id="toast">
+      <span class="thumb">▣</span>
+      <span><b>已截图</b><br><span class="sub">将随语音发送给 Aoi</span></span>
+    </div>
+
+    <div class="chat" id="chat">
+      <div class="msg">
+        <span class="who">Aoi</span>
+        <p>Sir，画面里是一家便利店，营业到 23:00。需要我查附近另一家 24 小时的吗？</p>
+      </div>
+      <div class="msg">
+        <span class="who">Aoi</span>
+        <p>收到。已把最近的 24 小时便利店标记在你的视野左前方，距离 220 米。</p>
+      </div>
+      <div class="msg">
+        <span class="who">Aoi</span>
+        <p>另外注意到你停留在这个画面超过 30 秒，需要我朗读上面的日文价目表吗？</p>
+      </div>
+      <div class="msg">
+        <span class="who">Aoi</span>
+        <p>已朗读完毕。其中「当店限定」的抹茶大福是 280 日元，是这家店的热门商品。</p>
+      </div>
+      <div class="msg partial" id="partialMsg" style="display:none">
+        <span class="who">Aoi · LIVE</span>
+        <p><span id="partialText"></span><span class="cursor"></span></p>
+      </div>
+      <div class="endmark" id="endmark">── END OF HISTORY ──</div>
+    </div>
+
+    <div class="scrolltrack"><div class="scrollthumb" id="scrollThumb"></div></div>
+    <div class="scrollbtns">
+      <button class="sbtn" id="btnUp">▲</button>
+      <button class="sbtn" id="btnDown">▼</button>
+    </div>
+
+    <div class="subtitle" id="subtitle">
+      <div class="tag"><span>实时字幕翻译 → 中文</span><span class="close">说「停止翻译」关闭</span></div>
+      <span>……所以下周的发布会我们会演示全新的全息交互方案。</span>
+    </div>
+
+    <div class="hintbar" id="hintbar">
+      <span class="key">双击 Grip</span><span id="hintA">隐藏面板</span>
+      <span style="color:rgba(127,168,184,.4)">·</span>
+      <span class="key">按住 Grip</span><span id="hintB">说话</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const panel = document.getElementById('panel');
+const stateText = document.getElementById('stateText');
+const partialMsg = document.getElementById('partialMsg');
+const partialText = document.getElementById('partialText');
+const subtitle = document.getElementById('subtitle');
+const toast = document.getElementById('toast');
+const hintbar = document.getElementById('hintbar');
+let typeTimer = null;
+
+const MODES = {
+  idle:      {fg:'',          state:'● 就绪',       interp:false, env:false, rec:false, shot:false,
+              hint:'<span class="key">双击 Grip</span><span>隐藏面板</span><span style="color:rgba(127,168,184,.4)">·</span><span class="key">按住 Grip</span><span>说话</span><span style="color:rgba(127,168,184,.4)">·</span><span class="key">双手按住 Grip</span><span>截图+说话</span><br><span class="key">说「开启环境上下文」</span><span>持续感知画面与声音</span><span style="color:rgba(127,168,184,.4)">·</span><span class="key">说「开启实时字幕」</span><span>翻译扬声器声音</span>'},
+  rec:       {fg:'state-rec', state:'● 正在录音…',   interp:false, env:false, rec:true,  shot:false,
+              hint:'<span class="key">松开 Grip</span><span>发送</span>'},
+  both:      {fg:'state-rec', state:'● 截图+录音…',  interp:false, env:false, rec:false, shot:true,
+              hint:'<span class="key">松开双手 Grip</span><span>发送截图+语音</span>'},
+  interp:    {fg:'',          state:'● 就绪',       interp:true,  env:false, rec:false, shot:false,
+              hint:'<span class="key">说「停止翻译」</span><span>关闭字幕</span><span style="color:rgba(127,168,184,.4)">·</span><span class="key">按住 Grip</span><span>仍可直接提问</span>'},
+  interp_rec:{fg:'state-rec', state:'● 正在录音…',   interp:true,  env:false, rec:true,  shot:false,
+              hint:'<span class="key">松开 Grip</span><span>发送提问</span><span style="color:rgba(127,168,184,.4)">·</span><span>字幕翻译不中断</span>'},
+  env:       {fg:'',          state:'● 就绪',       interp:false, env:true,  rec:false, shot:false,
+              hint:'<span>环境上下文中：持续截图 + 收听扬声器作为上下文</span><span style="color:rgba(127,168,184,.4)">·</span><span class="key">说「关闭环境上下文」</span><span>停止</span>'},
+  err:       {fg:'state-err', state:'⚠ 信号丢失',    interp:false, env:false, rec:false, shot:false,
+              hint:'<span>等待重连…</span>'},
+};
+const SAMPLE = "好的，正在帮你查…… 找到了：那家店的招牌拉面评价最高，距离你 3 分钟路程。要我标出路线吗？";
+
+function setMode(name){
+  const m = MODES[name];
+  panel.className = 'panel ' + m.fg + (m.interp ? ' interp-on' : '') + (m.env ? ' env-on' : '');
+  stateText.textContent = m.state;
+  subtitle.classList.toggle('show', m.interp);
+  toast.classList.toggle('show', m.shot);
+  hintbar.innerHTML = m.hint;
+  document.querySelectorAll('.framebar button').forEach(b =>
+    b.classList.toggle('on', b.dataset.mode === name));
+  clearInterval(typeTimer);
+  partialMsg.style.display = m.rec ? 'block' : 'none';
+  if (m.rec){
+    partialText.textContent = '';
+    let i = 0;
+    typeTimer = setInterval(() => {
+      partialText.textContent = SAMPLE.slice(0, ++i);
+      chat.scrollTop = chat.scrollHeight;
+      updateThumb();
+      if (i >= SAMPLE.length) clearInterval(typeTimer);
+    }, 55);
+  }
+}
+document.querySelectorAll('.framebar button').forEach(b =>
+  b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+/* ---- ▲/▼ button scrolling (primary) + thumb indicator ---- */
+const chat = document.getElementById('chat');
+const thumb = document.getElementById('scrollThumb');
+function updateThumb(){
+  const h = chat.clientHeight, sh = chat.scrollHeight;
+  const ratio = Math.min(1, h / sh);
+  const th = Math.max(24, h * ratio);
+  const maxTop = h - th;
+  const t = sh <= h ? 0 : (chat.scrollTop / (sh - h)) * maxTop;
+  thumb.style.height = th + 'px';
+  thumb.style.top = t + 'px';
+}
+document.getElementById('btnUp').onclick = () => { chat.scrollTop -= chat.clientHeight * 0.4; updateThumb(); };
+document.getElementById('btnDown').onclick = () => { chat.scrollTop += chat.clientHeight * 0.4; updateThumb(); };
+chat.style.overflowY = 'auto';
+chat.addEventListener('scroll', updateThumb);
+chat.scrollTop = 0; updateThumb();
+
+setMode('idle');
+</script>
+</body>
+</html>

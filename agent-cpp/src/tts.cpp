@@ -1,0 +1,92 @@
+#include "tts.hpp"
+
+#include <nlohmann/json.hpp>
+
+#include "base64.hpp"
+
+namespace aoi {
+
+namespace {
+const std::string kDefaultBaseUrl = "https://api.xiaomimimo.com/v1";
+}
+
+MiMoTTS::MiMoTTS(TtsConfig config) : config_(std::move(config)) {
+  // Apply the (encrypted) default base URL when none was provided.
+  if (config_.baseUrl.empty()) {
+    config_.baseUrl = kDefaultBaseUrl;
+  }
+}
+
+bool MiMoTTS::speak(const std::string& text, const std::string& style,
+                    const std::function<void(const TtsChunk&)>& onChunk) {
+  chunkIndex_ = 0;
+  aborted_ = false;
+
+  nlohmann::json messages = nlohmann::json::array();
+  if (!style.empty()) {
+    messages.push_back({{"role", "user"}, {"content", style}});
+  }
+  messages.push_back({{"role", "assistant"}, {"content", text}});
+
+  nlohmann::json body;
+  body["model"] = config_.model;
+  body["messages"] = messages;
+  body["audio"] = {{"format", "pcm16"}, {"voice", config_.voice}};
+  body["stream"] = true;
+
+  const std::string url = config_.baseUrl + "/chat/completions";
+  const std::vector<std::string> headers = {
+      "Content-Type: application/json",
+      "Authorization: Bearer " + config_.apiKey,
+  };
+
+  bool httpOk = true;
+  std::string buffer;  // SSE line buffer, scoped to this request
+  // Cancel check so abort() interrupts the in-flight curl call promptly
+  // (prevents detached-style hangs on shutdown).
+  const auto res = http_.postStream(url, headers, body.dump(),
+      [&](const char* data, size_t len) {
+    if (aborted_.load()) return;
+    // SSE parsing: accumulate lines, emit data: JSON chunks.
+    buffer.append(data, len);
+    size_t pos;
+    while ((pos = buffer.find('\n')) != std::string::npos) {
+      std::string line = buffer.substr(0, pos);
+      buffer.erase(0, pos + 1);
+      // Handle \r\n
+      if (!line.empty() && line.back() == '\r') line.pop_back();
+      if (line.empty()) continue;
+      if (line == "data: [DONE]") continue;
+      const std::string prefix = "data: ";
+      if (line.rfind(prefix, 0) != 0) continue;
+      try {
+        const auto json = nlohmann::json::parse(line.substr(prefix.size()));
+        const auto& choices = json["choices"];
+        if (choices.is_array() && !choices.empty() && choices[0].is_object()) {
+          const auto& first = choices[0];
+          if (first.contains("delta") && first["delta"].is_object()) {
+            const auto& delta = first["delta"];
+            if (delta.contains("audio")) {
+              const auto& audio = delta["audio"];
+              if (audio.is_object() && audio.contains("data")) {
+                TtsChunk chunk;
+                chunk.base64 = audio["data"].get<std::string>();
+                chunk.index = chunkIndex_++;
+                if (onChunk) onChunk(chunk);
+              }
+            }
+          }
+        }
+      } catch (...) {
+        // skip malformed SSE lines
+      }
+    }
+  }, [this]() { return aborted_.load(); });
+
+  if (res.status >= 400 || (res.status <= 0 && !aborted_.load())) {
+    httpOk = false;
+  }
+  return httpOk;
+}
+
+} // namespace aoi

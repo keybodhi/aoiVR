@@ -1,0 +1,1011 @@
+{
+  "source_image": "mockup_1to1.png",
+  "source_size": {
+    "width": 1024.46875,
+    "height": 1024.46875
+  },
+  "scale": 0.7320867522801452,
+  "board": {
+    "width": 750,
+    "height": 750
+  },
+  "unity_space": {
+    "width": 1024,
+    "height": 1024,
+    "note": "Unity texture is 1024x1024 == source image space; unity coords = source_bbox (browser top-left origin, convert y)."
+  },
+  "slices": [],
+  "slice_notes": "No bitmap assets required: every element is text or simple vector (borders, rects, gradients). Glyph icons (up/down triangles, ▣) are text.",
+  "layers": [
+    {
+      "id": "panel",
+      "type": "vector",
+      "source_bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1024.47,
+        "height": 1024.47
+      },
+      "scaled_bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 750.0,
+        "height": 750.0
+      },
+      "z_index": 1,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgb(5, 7, 13)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "rgba(2, 215, 242, 0.28) 0px 0px 40px 0px, rgba(2, 215, 242, 0.1) 0px 0px 120px 0px, rgba(2, 215, 242, 0.05) 0px 0px 60px 0px inset",
+        "textAlign": "start",
+        "_text": "AoiHAND PANEL\n      ● 就绪\n      实时字幕 →中\n "
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "bg-grid",
+      "type": "vector",
+      "source_bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1024.47,
+        "height": 1024.47
+      },
+      "scaled_bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 750.0,
+        "height": 750.0
+      },
+      "z_index": 2,
+      "dynamic": false,
+      "style": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "linear-gradient(rgba(2, 215, 242, 0.043) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(2, 215, 242, 0.043) 1px, rgba(0, 0, 0, 0) 1px)",
+        "backgroundSize": "48px 48px, 48px 48px",
+        "opacity": "1"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "bg-scanlines",
+      "type": "vector",
+      "source_bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1024.47,
+        "height": 1024.47
+      },
+      "scaled_bbox": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 750.0,
+        "height": 750.0
+      },
+      "z_index": 60,
+      "dynamic": false,
+      "style": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.024) 0px, rgba(255, 255, 255, 0.024) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 3px)",
+        "backgroundSize": "auto",
+        "opacity": "1"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "corner-tl",
+      "type": "vector",
+      "source_bbox": {
+        "x": 11.0,
+        "y": 11.0,
+        "width": 34,
+        "height": 34
+      },
+      "scaled_bbox": {
+        "x": 8.05,
+        "y": 8.05,
+        "width": 24.89,
+        "height": 24.89
+      },
+      "z_index": 61,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(2, 215, 242) rgb(215, 243, 251) rgb(215, 243, 251) rgb(2, 215, 242)",
+        "borderWidth": "2px 0px 0px 2px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "corner-tr",
+      "type": "vector",
+      "source_bbox": {
+        "x": 979.47,
+        "y": 11.0,
+        "width": 34,
+        "height": 34
+      },
+      "scaled_bbox": {
+        "x": 717.06,
+        "y": 8.05,
+        "width": 24.89,
+        "height": 24.89
+      },
+      "z_index": 61,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(2, 215, 242) rgb(2, 215, 242) rgb(215, 243, 251) rgb(215, 243, 251)",
+        "borderWidth": "2px 2px 0px 0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "corner-bl",
+      "type": "vector",
+      "source_bbox": {
+        "x": 11.0,
+        "y": 979.47,
+        "width": 34,
+        "height": 34
+      },
+      "scaled_bbox": {
+        "x": 8.05,
+        "y": 717.06,
+        "width": 24.89,
+        "height": 24.89
+      },
+      "z_index": 61,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(215, 243, 251) rgb(215, 243, 251) rgb(2, 215, 242) rgb(2, 215, 242)",
+        "borderWidth": "0px 0px 2px 2px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "corner-br",
+      "type": "vector",
+      "source_bbox": {
+        "x": 979.47,
+        "y": 979.47,
+        "width": 34,
+        "height": 34
+      },
+      "scaled_bbox": {
+        "x": 717.06,
+        "y": 717.06,
+        "width": 24.89,
+        "height": 24.89
+      },
+      "z_index": 61,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(215, 243, 251) rgb(2, 215, 242) rgb(2, 215, 242) rgb(215, 243, 251)",
+        "borderWidth": "0px 2px 2px 0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "statusbar",
+      "type": "vector",
+      "source_bbox": {
+        "x": 1.0,
+        "y": 1.0,
+        "width": 1022.47,
+        "height": 64
+      },
+      "scaled_bbox": {
+        "x": 0.73,
+        "y": 0.73,
+        "width": 748.54,
+        "height": 46.85
+      },
+      "z_index": 10,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(215, 243, 251) rgb(215, 243, 251) rgba(2, 215, 242, 0.25)",
+        "borderWidth": "0px 0px 1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "AoiHAND PANEL\n      ● 就绪\n      实时字幕 →中\n "
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "logo",
+      "type": "text",
+      "source_bbox": {
+        "x": 31.0,
+        "y": 20.5,
+        "width": 126.47,
+        "height": 24
+      },
+      "scaled_bbox": {
+        "x": 22.69,
+        "y": 15.01,
+        "width": 92.59,
+        "height": 17.57
+      },
+      "z_index": 11,
+      "dynamic": false,
+      "style": {
+        "fontSize": "21px",
+        "fontWeight": "700",
+        "letterSpacing": "2.94px",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(2, 215, 242)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "AoiHAND PANEL"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "status-state",
+      "type": "text",
+      "source_bbox": {
+        "x": 169.47,
+        "y": 23.5,
+        "width": 74.91,
+        "height": 18
+      },
+      "scaled_bbox": {
+        "x": 124.07,
+        "y": 17.2,
+        "width": 54.84,
+        "height": 13.18
+      },
+      "z_index": 11,
+      "dynamic": false,
+      "style": {
+        "fontSize": "15px",
+        "fontWeight": "400",
+        "letterSpacing": "2.1px",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(2, 215, 242)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "● 就绪"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "status-dot",
+      "type": "vector",
+      "source_bbox": {
+        "x": 169.47,
+        "y": 28.0,
+        "width": 9,
+        "height": 9
+      },
+      "scaled_bbox": {
+        "x": 124.07,
+        "y": 20.5,
+        "width": 6.59,
+        "height": 6.59
+      },
+      "z_index": 11,
+      "dynamic": false,
+      "style": {
+        "fontSize": "15px",
+        "fontWeight": "400",
+        "letterSpacing": "2.1px",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgb(2, 215, 242)",
+        "borderColor": "rgb(2, 215, 242)",
+        "borderWidth": "0px",
+        "borderRadius": "50%",
+        "opacity": "1",
+        "boxShadow": "rgb(2, 215, 242) 0px 0px 10px 0px",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "binding-btn",
+      "type": "vector",
+      "source_bbox": {
+        "x": 905.47,
+        "y": 18.0,
+        "width": 88,
+        "height": 29
+      },
+      "scaled_bbox": {
+        "x": 662.88,
+        "y": 13.18,
+        "width": 64.42,
+        "height": 21.23
+      },
+      "z_index": 11,
+      "dynamic": false,
+      "style": {
+        "fontSize": "12.5px",
+        "fontWeight": "400",
+        "letterSpacing": "1.5px",
+        "lineHeight": "normal",
+        "color": "rgb(127, 168, 184)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "center",
+        "_text": "修改绑定"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "interp-chip",
+      "type": "vector",
+      "source_bbox": {
+        "x": 256.38,
+        "y": 20.5,
+        "width": 124.97,
+        "height": 24
+      },
+      "scaled_bbox": {
+        "x": 187.69,
+        "y": 15.01,
+        "width": 91.49,
+        "height": 17.57
+      },
+      "z_index": 11,
+      "dynamic": true,
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "letterSpacing": "1.68px",
+        "lineHeight": "normal",
+        "color": "rgb(255, 215, 94)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(255, 215, 94, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "3px",
+        "opacity": "1",
+        "boxShadow": "rgba(255, 215, 94, 0.15) 0px 0px 10px 0px",
+        "textAlign": "start",
+        "_text": "实时字幕 →中"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "env-chip",
+      "type": "vector",
+      "source_bbox": {
+        "x": 256.38,
+        "y": 20.5,
+        "width": 108.41,
+        "height": 24
+      },
+      "scaled_bbox": {
+        "x": 187.69,
+        "y": 15.01,
+        "width": 79.37,
+        "height": 17.57
+      },
+      "z_index": 11,
+      "dynamic": true,
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "letterSpacing": "1.68px",
+        "lineHeight": "normal",
+        "color": "rgb(197, 140, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(176, 0, 255, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "3px",
+        "opacity": "1",
+        "boxShadow": "rgba(176, 0, 255, 0.18) 0px 0px 10px 0px",
+        "textAlign": "start",
+        "_text": "环境上下文"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "chat-area",
+      "type": "vector",
+      "source_bbox": {
+        "x": 35.0,
+        "y": 93.0,
+        "width": 954.47,
+        "height": 760.47
+      },
+      "scaled_bbox": {
+        "x": 25.62,
+        "y": 68.08,
+        "width": 698.75,
+        "height": 556.73
+      },
+      "z_index": 8,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(8, 14, 26, 0.82)",
+        "borderColor": "rgba(2, 215, 242, 0.25)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "Aoi\n        Sir，画面里是一家便利店，营业到 23:00。需要我查"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "scroll-btns",
+      "type": "group",
+      "source_bbox": {
+        "x": 967.47,
+        "y": 464.23,
+        "width": 42,
+        "height": 96
+      },
+      "scaled_bbox": {
+        "x": 708.27,
+        "y": 339.86,
+        "width": 30.75,
+        "height": 70.28
+      },
+      "z_index": 14,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(215, 243, 251)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "▲\n      ▼"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "scroll-up-btn",
+      "type": "vector",
+      "source_bbox": {
+        "x": 967.47,
+        "y": 464.23,
+        "width": 42,
+        "height": 42
+      },
+      "scaled_bbox": {
+        "x": 708.27,
+        "y": 339.86,
+        "width": 30.75,
+        "height": 30.75
+      },
+      "z_index": 15,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(2, 215, 242, 0.08)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "center",
+        "_text": "▲"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "scroll-down-btn",
+      "type": "vector",
+      "source_bbox": {
+        "x": 967.47,
+        "y": 518.23,
+        "width": 42,
+        "height": 42
+      },
+      "scaled_bbox": {
+        "x": 708.27,
+        "y": 379.39,
+        "width": 30.75,
+        "height": 30.75
+      },
+      "z_index": 15,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(2, 215, 242, 0.08)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "center",
+        "_text": "▼"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "scroll-track",
+      "type": "vector",
+      "source_bbox": {
+        "x": 1012.47,
+        "y": 105.0,
+        "width": 3,
+        "height": 736.47
+      },
+      "scaled_bbox": {
+        "x": 741.22,
+        "y": 76.87,
+        "width": 2.2,
+        "height": 539.16
+      },
+      "z_index": 13,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(2, 215, 242, 0.12)",
+        "borderColor": "rgb(215, 243, 251)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "scroll-thumb",
+      "type": "vector",
+      "source_bbox": {
+        "x": 1012.47,
+        "y": 105.0,
+        "width": 3,
+        "height": 758
+      },
+      "scaled_bbox": {
+        "x": 741.22,
+        "y": 76.87,
+        "width": 2.2,
+        "height": 554.92
+      },
+      "z_index": 14,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "normal",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgb(2, 215, 242)",
+        "borderColor": "rgb(215, 243, 251)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "rgba(2, 215, 242, 0.55) 0px 0px 8px 0px",
+        "textAlign": "start",
+        "_text": ""
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "subtitle-bar",
+      "type": "vector",
+      "source_bbox": {
+        "x": 82.8,
+        "y": 840.86,
+        "width": 858.86,
+        "height": 70.61
+      },
+      "scaled_bbox": {
+        "x": 60.62,
+        "y": 615.58,
+        "width": 628.76,
+        "height": 51.69
+      },
+      "z_index": 12,
+      "dynamic": true,
+      "style": {
+        "fontSize": "17px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "26.35px",
+        "color": "rgb(255, 215, 94)",
+        "backgroundColor": "rgba(4, 6, 14, 0.9)",
+        "borderColor": "rgba(255, 215, 94, 0.5)",
+        "borderWidth": "1px",
+        "borderRadius": "6px",
+        "opacity": "1",
+        "boxShadow": "rgba(255, 215, 94, 0.18) 0px 0px 24px 0px, rgba(255, 215, 94, 0.05) 0px 0px 18px 0px inset",
+        "textAlign": "start",
+        "_text": "实时字幕翻译 → 中文说「停止翻译」关闭\n      ……所以下周的发布会我们会"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "subtitle-tag",
+      "type": "text",
+      "source_bbox": {
+        "x": 107.8,
+        "y": 851.86,
+        "width": 808.86,
+        "height": 16.27
+      },
+      "scaled_bbox": {
+        "x": 78.92,
+        "y": 623.64,
+        "width": 592.16,
+        "height": 11.91
+      },
+      "z_index": 13,
+      "dynamic": false,
+      "style": {
+        "fontSize": "10.5px",
+        "fontWeight": "400",
+        "letterSpacing": "2.31px",
+        "lineHeight": "16.275px",
+        "color": "rgba(255, 215, 94, 0.6)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(255, 215, 94, 0.6)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "实时字幕翻译 → 中文说「停止翻译」关闭"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "hint-bar",
+      "type": "text",
+      "source_bbox": {
+        "x": 1.0,
+        "y": 949.47,
+        "width": 1022.47,
+        "height": 46
+      },
+      "scaled_bbox": {
+        "x": 0.73,
+        "y": 695.09,
+        "width": 748.54,
+        "height": 33.68
+      },
+      "z_index": 10,
+      "dynamic": false,
+      "style": {
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "letterSpacing": "1.56px",
+        "lineHeight": "normal",
+        "color": "rgb(127, 168, 184)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(127, 168, 184)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "center",
+        "_text": "双击 Grip隐藏面板·按住 Grip说话·双手按住 Grip截图+说话说「开启"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "hint-key",
+      "type": "vector",
+      "source_bbox": {
+        "x": 75.72,
+        "y": 949.47,
+        "width": 89.92,
+        "height": 20
+      },
+      "scaled_bbox": {
+        "x": 55.43,
+        "y": 695.09,
+        "width": 65.83,
+        "height": 14.64
+      },
+      "z_index": 11,
+      "dynamic": false,
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "letterSpacing": "1.56px",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "center",
+        "_text": "双击 Grip"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "shot-toast",
+      "type": "vector",
+      "source_bbox": {
+        "x": 792.7,
+        "y": 77.0,
+        "width": 200.77,
+        "height": 64
+      },
+      "scaled_bbox": {
+        "x": 580.33,
+        "y": 56.37,
+        "width": 146.98,
+        "height": 46.85
+      },
+      "z_index": 20,
+      "dynamic": true,
+      "style": {
+        "fontSize": "12.5px",
+        "fontWeight": "400",
+        "letterSpacing": "1.25px",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(4, 6, 14, 0.92)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "rgba(2, 215, 242, 0.3) 0px 0px 18px 0px",
+        "textAlign": "start",
+        "_text": "▣\n      已截图将随语音发送给 Aoi"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "toast-thumb",
+      "type": "vector",
+      "source_bbox": {
+        "x": 809.7,
+        "y": 87.0,
+        "width": 44,
+        "height": 44
+      },
+      "scaled_bbox": {
+        "x": 592.77,
+        "y": 63.69,
+        "width": 32.21,
+        "height": 32.21
+      },
+      "z_index": 21,
+      "dynamic": false,
+      "style": {
+        "fontSize": "18px",
+        "fontWeight": "400",
+        "letterSpacing": "1.25px",
+        "lineHeight": "normal",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgba(2, 215, 242, 0.55)",
+        "borderWidth": "1px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "▣"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "msg-who",
+      "type": "text",
+      "source_bbox": {
+        "x": 58.0,
+        "y": 112.0,
+        "width": 866.47,
+        "height": 21.05
+      },
+      "scaled_bbox": {
+        "x": 42.46,
+        "y": 81.99,
+        "width": 634.33,
+        "height": 15.41
+      },
+      "z_index": 9,
+      "dynamic": false,
+      "style": {
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "letterSpacing": "2.6px",
+        "lineHeight": "21.06px",
+        "color": "rgb(2, 215, 242)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(2, 215, 242)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "Aoi"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    },
+    {
+      "id": "msg-text",
+      "type": "text",
+      "source_bbox": {
+        "x": 58.0,
+        "y": 137.05,
+        "width": 866.47,
+        "height": 26.72
+      },
+      "scaled_bbox": {
+        "x": 42.46,
+        "y": 100.33,
+        "width": 634.33,
+        "height": 19.56
+      },
+      "z_index": 9,
+      "dynamic": false,
+      "style": {
+        "fontSize": "16.5px",
+        "fontWeight": "400",
+        "letterSpacing": "normal",
+        "lineHeight": "26.73px",
+        "color": "rgb(215, 243, 251)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderColor": "rgb(215, 243, 251)",
+        "borderWidth": "0px",
+        "borderRadius": "0px",
+        "opacity": "1",
+        "boxShadow": "none",
+        "textAlign": "start",
+        "_text": "Sir，画面里是一家便利店，营业到 23:00。需要我查附近另一家 24 小时的"
+      },
+      "asset": null,
+      "transparent_required": false,
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "actions": [
+    {
+      "name": "/actions/aoi/in/Grip",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/aoi/in/GripLeft",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/aoi/in/GripRight",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/aoi/in/TriggerClick",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/aoi/in/System",
+      "type": "boolean",
+      "requirement": "optional"
+    }
+  ],
+  "action_sets": [
+    {
+      "name": "/actions/aoi",
+      "usage": "leftright"
+    }
+  ],
+  "default_bindings": [
+    {
+      "controller_type": "knuckles",
+      "binding_url": "bindings_knuckles.json"
+    },
+    {
+      "controller_type": "vive_controller",
+      "binding_url": "bindings_vive.json"
+    },
+    {
+      "controller_type": "oculus_touch",
+      "binding_url": "bindings_oculus.json"
+    },
+    {
+      "controller_type": "holographic_controller",
+      "binding_url": "bindings_holographic.json"
+    },
+    {
+      "controller_type": "index_controller",
+      "binding_url": "bindings_index.json"
+    },
+    {
+      "controller_type": "pico_controller",
+      "binding_url": "bindings_pico_controller.json"
+    }
+  ]
+}

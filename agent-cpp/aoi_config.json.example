@@ -1,0 +1,16 @@
+{
+  "llm": {
+    "baseUrl": "https://opencode.ai/zen/go/v1",
+    "apiKey": "",
+    "model": "mimo-v2.5",
+    "thinking": "disabled",
+    "reasoningEffort": "low"
+  },
+  "tts": {
+    "enabled": true,
+    "baseUrl": "https://api.xiaomimimo.com/v1",
+    "apiKey": "",
+    "model": "mimo-v2.5-tts",
+    "voice": "冰糖"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Default bindings for Aoi",
+  "controller_type": "holographic_controller",
+  "bindings": {
+    "/actions/aoi": {
+      "sources": [
+        {
+          "path": "/user/hand/left/input/grip",
+          "mode": "button",
+          "inputs": {
+            "click": { "output": "/actions/aoi/in/GripLeft" }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/grip",
+          "mode": "button",
+          "inputs": {
+            "click": { "output": "/actions/aoi/in/GripRight" }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/squeeze",
+          "mode": "button",
+          "inputs": {
+            "click": { "output": "/actions/aoi/in/GripLeft" }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/squeeze",
+          "mode": "button",
+          "inputs": {
+            "click": { "output": "/actions/aoi/in/GripRight" }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/trigger",
+          "mode": "trigger",
+          "inputs": {
+            "click": { "output": "/actions/aoi/in/TriggerClick" }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trigger",
+          "mode": "trigger",
+          "inputs": {
+            "click": { "output": "/actions/aoi/in/TriggerClick" }
+          }
+        }
+      ]
+    }
+  }
+}

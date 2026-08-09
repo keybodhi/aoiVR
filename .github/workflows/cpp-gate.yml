@@ -1,0 +1,55 @@
+name: cpp-gate
+
+# Result-driven quality gate for the C++ agent (agent-cpp).
+# Builds everything and runs all test suites on windows-latest. The gate only
+# passes if every suite exits 0 — no manual code review is required, only the
+# automated result.
+
+on:
+  push:
+    branches: [c++]
+    paths: ['agent-cpp/**']
+  pull_request:
+    paths: ['agent-cpp/**']
+
+jobs:
+  gate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # VS 2026 CMake is bundled; use the shim that the gate script locates.
+      - name: Configure + build
+        working-directory: agent-cpp
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          $cmake = Join-Path $vs "Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe"
+          if (-not (Test-Path $cmake)) { $cmake = "cmake" }
+          if (-not (Test-Path build\CMakeCache.txt)) {
+            & $cmake -S . -B build -A x64
+          }
+          & $cmake --build build --config Release
+
+      - name: Run quality gate (all suites must pass)
+        working-directory: agent-cpp
+        shell: pwsh
+        run: |
+          $tests = @("aoi-smoke-tests","aoi-sse-tests","aoi-llm-tests","aoi-transport-tests","aoi-dll-tests","aoi-stability-tests")
+          $failed = $false
+          foreach ($t in $tests) {
+            Write-Host "===== GATE $t ====="
+            & "build\Release\$t.exe"
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "[GATE] FAILED: $t"
+              $failed = $true
+            } else {
+              Write-Host "[GATE] PASSED: $t"
+            }
+          }
+          if ($failed) {
+            Write-Host "RESULT: FAILED - code rejected"
+            exit 1
+          }
+          Write-Host "RESULT: ALL PASSED - code accepted"
