@@ -1,51 +1,52 @@
 # Aoi VR Agent
 
-> **An AI voice assistant that lives in your SteamVR hand.**
+> **一个住在你 SteamVR 手里的 AI 语音助手。**
 
-A holographic hand panel attached to your controller — driven by a local
-native C++ agent with an embedded LLM client, streaming TTS, VR screenshots,
-and gesture control. Talk to it, ask it to look around your VR space, or
-control your system — all from the palm of your hand.
+全息手板面板附着在你的控制器上——由本地原生 C++ agent 驱动（内置 LLM 客户端、
+流式 TTS、VR 截图、手势控制）。跟它对话、让它看看你的 VR 空间、或者控制你的
+系统——一切尽在掌中。
 
-## Features
+![Aoi VR Agent 演示](assets/demo.gif)
+
+## 功能特性
 
 | | |
 |---|---|
-| 🎙️ **Voice conversation** | LLM chat (OpenAI-compatible, optimized for the opencode zen/go gateway: prompt caching, streaming reasoning, usage tracking) with streaming TTS |
-| 🖐️ **SteamVR hand panel** | OpenVR overlay attached to the right controller — laser/raycast input, dashboard mirror |
-| 👁️ **Environment awareness** | On-demand VR screenshots + optional continuous vision & system-audio transcription |
-| 🌐 **Simultaneous interpretation** | 同声传译 — translates system audio in real time |
-| 🔊 **System control** | App-level volume (Windows Volume Mixer), VR brightness dimming |
-| 🧩 **Native core** | `aoi_agent.dll` (C++20) — self-contained, in-process agent loop (never blocks Unity's render thread) |
+| 🎙️ **语音对话** | LLM 对话（OpenAI 兼容，针对 opencode zen/go 网关优化：prompt 缓存、流式推理、用量统计）+ 流式 TTS |
+| 🖐️ **SteamVR 手板面板** | 附着在右手控制器的 OpenVR overlay——激光/射线输入、桌面镜像 |
+| 👁️ **环境感知** | 按需 VR 截图 + 可选持续视觉 & 系统音频转写 |
+| 🌐 **同声传译** | 实时翻译系统音频 |
+| 🔊 **系统控制** | 应用级音量（Windows 音量合成器）、VR 亮度调节 |
+| 🧩 **原生核心** | `aoi_agent.dll`（C++20）——自包含、进程内 agent 循环（绝不阻塞 Unity 渲染线程） |
 
-## Quick start (prebuilt release)
+![手板截图](assets/screenshot-2.png)
 
-Download the latest release zip from the
-[Releases page](https://github.com/keybodhi/aoiVR/releases), extract it, then:
+## 快速开始（预编译版）
+
+从 [Releases 页面](https://github.com/keybodhi/aoiVR/releases) 下载最新发布包，
+解压后运行：
 
 ```
 launch.bat
 ```
 
-On first run it creates `aoi_config.json` from the template — fill in your
-LLM / TTS API keys (see `aoi_config.json.example`), then run again. Or launch
-directly:
+首次运行会从模板创建 `aoi_config.json`——填入你的 LLM / TTS API key（见
+`aoi_config.json.example`），再次运行即可。也可以直接启动：
 
 ```
-AoiVR.exe            # SteamVR overlay mode
-AoiVR.exe -desktop   # desktop preview window (no headset needed)
-AoiVR.exe -desktop -demo   # scripted demo mode (no API keys needed)
+AoiVR.exe                # SteamVR overlay 模式
+AoiVR.exe -desktop       # 桌面预览窗口（无需头显）
+AoiVR.exe -desktop -demo # 演示模式（无需 API key）
 ```
 
-The `-demo` mode plays a simulated conversation through the panel — useful to
-see the UI without any keys, and for recording/demos.
+`-demo` 模式在面板上播放一段模拟对话——无需任何 key 即可体验界面，也方便录制演示。
 
-## Building from source
+## 从源码构建
 
-Requirements: Visual Studio (MSVC + CMake), Unity 6000.5 (IL2CPP Windows
-Standalone), SteamVR.
+环境要求：Visual Studio（MSVC + CMake）、Unity 6000.5（IL2CPP Windows
+Standalone）、SteamVR。
 
-### 1. Native agent DLL
+### 1. 原生 agent DLL
 
 ```bat
 cd agent-cpp
@@ -53,31 +54,30 @@ cmake -S . -B build
 cmake --build build --config Release --target aoi-agent-dll
 ```
 
-Alternatively `agent-cpp\gate.cmd` runs the full quality gate (configure +
-build + all test suites).
+或者用 `agent-cpp\gate.cmd` 运行完整质量门禁（配置 + 构建 + 全部测试套件）。
 
-### 2. Unity player
+### 2. Unity 客户端
 
-1. Copy `agent-cpp/build/Release/aoi_agent.dll` to
+1. 复制 `agent-cpp/build/Release/aoi_agent.dll` 到
    `unity-client/Assets/Aoi/Plugins/x86_64/aoi_agent.dll`
-2. Open `unity-client` in Unity 6000.5 and run `Build/Build Aoi` (menu), or
-   headless:
+2. 用 Unity 6000.5 打开 `unity-client`，运行 `Build/Build Aoi`（菜单），或命令行：
 
 ```bat
 Unity.exe -batchmode -nographics -quit ^
   -projectPath unity-client -executeMethod BuildScript.Build
 ```
 
-Output: `unity-client/Build/AoiVR.exe`.
+输出：`unity-client/Build/AoiVR.exe`。
 
-## Repository layout
+## 仓库结构
 
-| Path | Purpose |
+| 路径 | 说明 |
 |---|---|
-| `agent-cpp/` | Native C++ agent (LLM client, TTS, ASR, DSP, tools) exported as `aoi_agent.dll`; system prompts in `src/prompts.hpp` |
-| `unity-client/` | Unity project (SteamVR overlay UI, hand panel, agent bridge) |
+| `agent-cpp/` | 原生 C++ agent（LLM 客户端、TTS、ASR、DSP、工具），导出为 `aoi_agent.dll`；系统提示词在 `src/prompts.hpp` |
+| `unity-client/` | Unity 工程（SteamVR overlay UI、手板面板、agent 桥接） |
+| `assets/` | 演示录制与截图 |
 
-## License
+## 许可证
 
-MIT — see [LICENSE](LICENSE). Third-party notices in
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), license texts in `licenses/`.
+MIT — 见 [LICENSE](LICENSE)。第三方声明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)，
+许可原文在 `licenses/`。

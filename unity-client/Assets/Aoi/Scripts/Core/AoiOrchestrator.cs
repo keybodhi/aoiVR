@@ -46,6 +46,12 @@ public class AoiOrchestrator : MonoBehaviour{
     public static TMP_FontAsset monoFont;
     public static bool DesktopMode;
     public static bool DemoMode;
+    public static bool DemoRecordActive;
+    string demoRecDir;
+    float demoRecStart;
+    float demoRecTimer;
+    float demoRecLast;
+    int demoRecFrames;
     // True when the ScreenMirror camera exists (desktop window shows the
     // panel). The panel render texture is then rendered continuously and the
     // desktop window accepts mouse input, like DesktopMode.
@@ -170,6 +176,7 @@ public class AoiOrchestrator : MonoBehaviour{
         if (DemoMode)        {
             Log("Start - DEMO MODE");
             StartDesktopMode();            // windowed + canvas overlay
+            DemoRecordActive = System.Environment.CommandLine.Contains("-demo-record");
             StartCoroutine(DemoModeRoutine());
             return;
         }
@@ -230,26 +237,8 @@ public class AoiOrchestrator : MonoBehaviour{
             Log("[Demo] no panel UI found");
             yield break;
         }
-        bool record = System.Environment.CommandLine.Contains("-demo-record");
-        string recDir = Application.dataPath + "/../demo_rec";
-        if (record && !System.IO.Directory.Exists(recDir))
-            System.IO.Directory.CreateDirectory(recDir);
-        int frame = 0;
-        float recStart = record ? Time.unscaledTime : 0f;
-        Log("[Demo] running" + (record ? " (recording)" : ""));
-        int recordEvery = 3; // ~10 fps
+        Log("[Demo] running");
         while (true)        {
-            if (record)            {
-                frame++;
-                if (frame % recordEvery == 0)            {
-                    ScreenCapture.CaptureScreenshot(recDir + "/frame_" + (frame / recordEvery).ToString("0000") + ".png");
-                }
-                if (Time.unscaledTime - recStart > 30f)            {
-                    Log($"[Demo] recording done ({frame / recordEvery} frames)");
-                    Application.Quit();
-                    yield break;
-                }
-            }
             ui.SetStatus("● 就绪");
             ui.SetHint("<color=#02D7F2>Demo 模式</color> — 模拟对话演示");
             yield return new WaitForSeconds(1.2f);
@@ -688,6 +677,29 @@ var dashKey = overlayKey + "_dashboard";
     private bool interpActive = false;
     private bool envActive = false;
     void Update()    {
+        // Demo recording: capture frames from the app's OWN render output
+        // (never the desktop) at ~10 fps, then quit after 30s.
+        if (DemoRecordActive)        {
+            if (demoRecDir == null)            {
+                demoRecDir = Application.dataPath + "/../demo_rec";
+                if (!System.IO.Directory.Exists(demoRecDir))
+                    System.IO.Directory.CreateDirectory(demoRecDir);
+                demoRecStart = Time.unscaledTime;
+                Log("[Demo] recording -> " + demoRecDir);
+            }
+            if (Time.unscaledTime - demoRecStart > 30f)            {
+                Log($"[Demo] recording done ({demoRecFrames} frames)");
+                Application.Quit();
+                return;
+            }
+            demoRecTimer -= Time.unscaledTime - demoRecLast;
+            demoRecLast = Time.unscaledTime;
+            if (demoRecTimer <= 0f)            {
+                demoRecTimer = 0.1f; // ~10 fps
+                demoRecFrames++;
+                ScreenCapture.CaptureScreenshot(demoRecDir + "/frame_" + demoRecFrames.ToString("0000") + ".png");
+            }
+        }
         // Drive the processing pipeline fade-out.
         var procUI = GetPanelUI();
         if (procUI != null) procUI.UpdateProcessing();
